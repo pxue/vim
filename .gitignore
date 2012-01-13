@@ -1,0 +1,9 @@
+.hg/*
+.hgignore
+.netrwhist
+.VimballRecord
+CHANGELOG
+README.md
+Rakefile
+backup/*
+bundle/*
