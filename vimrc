@@ -37,6 +37,7 @@ set title
 set mouse=a
 set showmatch
 set diffopt=iwhite
+"set paste
 
 set t_Co=256
 
@@ -146,6 +147,10 @@ nmap <C-Down> ]e
 " Bubble multiple lines
 vmap <C-Up> [egv
 vmap <C-Down> ]egv
+
+" Set Paste ON/OFF
+map <C-p> :set paste<CR>
+map <S-p> :set nopaste<CR>
 
 
 " }}}
