@@ -136,6 +136,10 @@ imap <C-Q> <Esc>:wq<CR>
 " Easier tab navigation
 nnoremap <silent> <C-t>     :tabnew<CR>
 
+" No backward cursor after exiting insert mode
+"inoremap <silent> <Esc> <Esc>`^
+"inoremap <silent> <C-c> <C-c>`^
+
 " Searching
 map N Nzz
 map n nzz
@@ -149,9 +153,16 @@ vmap <C-Up> [egv
 vmap <C-Down> ]egv
 
 " Set Paste ON/OFF
-map <C-p> :set paste<CR>
-map <S-p> :set nopaste<CR>
+"map <C-p> :set paste<CR>
+"map <S-p> :set nopaste<CR>
+"
 
+" map zencoding
+let g:user_zen_expandabbr_key='<Leader>e'
+
+" Powerline
+let g:Powerline_stl_path_style = 'filename'
+call Pl#Theme#InsertSegment('was_marker', 'after', 'lineinfo')
 
 " }}}
 "
@@ -165,7 +176,7 @@ set showcmd
 
 augroup ft_statuslinecolor
     au!
-    
+
     au InsertEnter * hi StatusLine ctermfg=196 guifg=#FF3145
     au InsertLeave * hi StatusLine ctermfg=130 guifg=#CD5907
 augroup END
