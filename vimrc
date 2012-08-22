@@ -240,7 +240,7 @@ augroup END
 "
 " Ack-grep in vim
 "let g:ackprg="ack-grep -H -i -l --no-color --group --nocolumn --nofollow --max-count=1"
-let g:ackprg="ack-grep -H --no-color --group --nocolumn --nofollow"
+let g:ackprg="ack-5.12 -H --no-color --group --nocolumn --nofollow"
 silent! nmap <unique> <silent> <Leader>f :Ack<space>
 
 " Without setting this, ZoomWin restores windows in a way that causes
@@ -252,11 +252,14 @@ set noequalalways
 let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
 map <Leader>n :NERDTreeToggle<CR>
 
-" Command-T configuration
-let g:CommandTMaxHeight=20
-
 " ZoomWin configuration
 map <Leader><Leader> :ZoomWin<CR>
+
+" ControlP configuration
+let g:ctrlp_map = "<Leader>t"
+let g:ctrlp_cmd = "CtrlP"
+
+let g:ctrlp_working_path_mode = 'rc'
 
 " Remember last location in file
 if has("autocmd")
@@ -325,10 +328,6 @@ function s:UpdateNERDTree(...)
         wincmd p
       end
     endif
-  endif
-
-  if exists(":CommandTFlush") == 2
-    CommandTFlush
   endif
 endfunction
 
