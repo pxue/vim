@@ -58,10 +58,12 @@ set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest    " compiled obj files
 
 set wildignore+=*.pyc                               " compiled python bytecode
 set wildignore+=*.rbc                               " compiled ruby bytecode
-" set wildignore+=migrations                          " django migrations
+" set wildignore+=migrations                        " django migrations
 
 set wildignore+=vendor/gems/*                       " gems
 set wildignore+=node_modules/*                      " node_modules
+
+set wildignore+=*.orig                              " hg backup files
 
 " {{{
 
