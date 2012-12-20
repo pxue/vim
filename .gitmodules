@@ -55,3 +55,12 @@
 [submodule "bundle/vim-ctrlp"]
 	path = bundle/vim-ctrlp
 	url = https://github.com/kien/ctrlp.vim.git
+[submodule "bundle/vim-syntastic"]
+	path = bundle/vim-syntastic
+	url = https://github.com/scrooloose/syntastic.git
+[submodule "vimux"]
+	path = vimux
+	url = git://github.com/benmills/vimux.git
+[submodule "bundle/vimux"]
+	path = bundle/vimux
+	url = git://github.com/benmills/vimux.git

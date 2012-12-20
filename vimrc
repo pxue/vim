@@ -37,7 +37,6 @@ set title
 set mouse=a
 set showmatch
 set diffopt=iwhite
-"set paste
 
 set t_Co=256
 
@@ -91,9 +90,9 @@ set nowrap
 set formatoptions+=qrnl1
 set list listchars=tab:\ \ ,trail:·
 
-autocmd FileType javascript :setlocal sw=2 ts=2 sts=2
-autocmd FileType jade :setlocal sw=2 ts=2 sts=2
-autocmd FileType stylus :setlocal sw=2 ts=2 sts=2
+au! FileType javascript :setlocal sw=2 ts=2 sts=2
+au! FileType jade :setlocal sw=2 ts=2 sts=2
+au! FileType stylus :setlocal sw=2 ts=2 sts=2
 
 " Scrolling
 set scrolloff=8
@@ -161,6 +160,8 @@ vmap <C-Down> ]egv
 
 " map zencoding
 let g:user_zen_expandabbr_key='<Leader>e'
+let g:user_zen_next_key='<Leader>zn'
+let g:user_zen_prev_key='<Leader>zN'
 
 " Powerline
 let g:Powerline_stl_path_style = 'filename'
@@ -413,4 +414,13 @@ call s:DefineCommand("rm", "Remove")
 call s:DefineCommand("e", "Edit")
 call s:DefineCommand("mkdir", "Mkdir")
 
-
+" vimtmux
+map <Leader>pt :call VimuxRunCommand("clear; python manage.py runtests nd")
+map <Leader>ps :call VimuxRunCommand("clear; python manage.py shell")<CR>
+map <Leader>vp :VimuxPromptCommand<CR>
+map <Leader>vi :VimuxInspectRunner<CR>
+map <Leader>vl :VimuxRunLastCommand<CR>
+map <Leader>vq :VimuxCloseRunner<CR>
+map <Leader>vx :VimuxClosePanes<CR>
+map <Leader>vs :VimuxInterruptRunner<CR>
+map <Leader>vc :VimuxClearRunnerHistory<CR>
