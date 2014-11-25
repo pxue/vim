@@ -43,7 +43,6 @@ set t_Co=256
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
-
 " }}}
 
 " Wildmenu completion {{{
@@ -122,6 +121,12 @@ let maplocalleader = "\\"
 " system clipboard copying in visual mode
 "vmap <C-c> y:call system("xclip -i -selection clipboard", getreg("\""))<CR>
 "nmap <C-v> :call setreg("\"",system("xclip -o -selection clipboard"))<CR>p
+"
+
+" Insert Mode Movement
+imap <C-b> <Esc>`^bi
+imap <C-w> <Esc>`^wi
+imap <C-a> <Esc>`^Ai
 
 " Inline edit
 map <Leader>i :InlineEdit<CR>
@@ -136,10 +141,6 @@ imap <C-Q> <Esc>:wq<CR>
 
 " Easier tab navigation
 nnoremap <silent> <C-t>     :tabnew<CR>
-
-" No backward cursor after exiting insert mode
-"inoremap <silent> <Esc> <Esc>`^
-"inoremap <silent> <C-c> <C-c>`^
 
 " Searching
 map N Nzz
@@ -207,7 +208,7 @@ set statusline+=\ (line\ %l\/%L,\ col\ %03c)
 
 " File types
 " add json syntax highlighting
-au BufNewFile,BufRead *.json set ft=javascript
+au BufNewFile,BufRead *.json set ft=json
 
 
 " }}}
@@ -243,7 +244,7 @@ augroup END
 "
 " Ack-grep in vim
 "let g:ackprg="ack-grep -H -i -l --no-color --group --nocolumn --nofollow --max-count=1"
-let g:ackprg="ack-5.12 -H --no-color --group --nocolumn --nofollow"
+let g:ackprg="ack -H --group --nocolumn --ignore-dir=playground"
 silent! nmap <unique> <silent> <Leader>f :Ack<space>
 
 " Without setting this, ZoomWin restores windows in a way that causes
@@ -263,6 +264,7 @@ let g:ctrlp_map = "<Leader>t"
 let g:ctrlp_cmd = "CtrlP"
 
 let g:ctrlp_working_path_mode = 'rc'
+let g:ctrlp_custom_ignore = '\v[\/]\playground$'
 
 " Remember last location in file
 if has("autocmd")
@@ -424,3 +426,16 @@ map <Leader>vq :VimuxCloseRunner<CR>
 map <Leader>vx :VimuxClosePanes<CR>
 map <Leader>vs :VimuxInterruptRunner<CR>
 map <Leader>vc :VimuxClearRunnerHistory<CR>
+
+" auto set paste on copy from system
+let &t_SI .= "\<Esc>[?2004h"
+let &t_EI .= "\<Esc>[?2004l"
+
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+function! XTermPasteBegin()
+  set pastetoggle=<Esc>[201~
+  set paste
+  return ""
+endfunction
+
