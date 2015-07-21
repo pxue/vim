@@ -63,6 +63,19 @@ set wildignore+=node_modules/*                      " node_modules
 
 set wildignore+=*.orig                              " hg backup files
 
+set wildignore+=.DS_Store                           " Mac OSX
+
+" Rails specific ignores
+set wildignore+=tags
+set wildignore+=*/tmp/*
+set wildignore+=*/vendor/*
+set wildignore+=*/spec/vcr/*
+set wildignore+=*/public/*
+set wildignore+=*/chef/*
+set wildignore+=*/coverage/*
+set wildignore+=*/log/*
+set wildignore+=*.png,*.jpg,*.otf,*.woff,*.jpeg,*.orig
+
 " {{{
 
 " Save when losing focus
@@ -210,6 +223,10 @@ set statusline+=\ (line\ %l\/%L,\ col\ %03c)
 " add json syntax highlighting
 au BufNewFile,BufRead *.json set ft=json
 
+" ruby shift/soft tab width
+au BufNewFile,BufRead *.rb setlocal softtabstop=2 shiftwidth=2
+au BufNewFile,BufRead *.rake setlocal softtabstop=2 shiftwidth=2
+
 
 " }}}
 " Django {{{
@@ -244,7 +261,7 @@ augroup END
 "
 " Ack-grep in vim
 "let g:ackprg="ack-grep -H -i -l --no-color --group --nocolumn --nofollow --max-count=1"
-let g:ackprg="ack -H --group --nocolumn --ignore-dir=playground"
+let g:ackprg="ack -H --group --nocolumn --ignore-dir={.vendor,log}"
 silent! nmap <unique> <silent> <Leader>f :Ack<space>
 
 " Without setting this, ZoomWin restores windows in a way that causes
@@ -264,7 +281,7 @@ let g:ctrlp_map = "<Leader>t"
 let g:ctrlp_cmd = "CtrlP"
 
 let g:ctrlp_working_path_mode = 'rc'
-let g:ctrlp_custom_ignore = '\v[\/]\playground$'
+let g:ctrlp_custom_ignore = '\v[\/]\.vendor$'
 
 " Remember last location in file
 if has("autocmd")
