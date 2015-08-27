@@ -181,6 +181,23 @@ let g:user_zen_prev_key='<Leader>zN'
 let g:Powerline_stl_path_style = 'filename'
 call Pl#Theme#InsertSegment('was_marker', 'after', 'lineinfo')
 
+" Go Vim (vim-go)
+let g:go_fmt_command = "goimports"
+let g:go_fmt_autosave = 0
+let g:go_def_mapping_enabled = 0
+let g:go_doc_keywordprg_enabled = 1
+let g:go_fmt_fail_silently = 1
+
+au FileType go nmap gd <Plug>(go-def-vertical)
+au FileType go nmap gb <Plug>(go-doc-browser)
+
+" Syntastic
+let g:syntastic_mode_map = {
+    \ "mode": "active",
+    \ "active_filetypes": [],
+    \ "passive_filetypes": ["go"] }
+
+
 " }}}
 "
 
@@ -261,7 +278,7 @@ augroup END
 "
 " Ack-grep in vim
 "let g:ackprg="ack-grep -H -i -l --no-color --group --nocolumn --nofollow --max-count=1"
-let g:ackprg="ack -H --group --nocolumn --ignore-dir={.vendor,log}"
+let g:ackprg="ack -H --group --nocolumn --ignore-dir={.vendor,log,vendor}"
 silent! nmap <unique> <silent> <Leader>f :Ack<space>
 
 " Without setting this, ZoomWin restores windows in a way that causes
