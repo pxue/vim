@@ -105,6 +105,7 @@ set list listchars=tab:\ \ ,trail:·
 au! FileType javascript :setlocal sw=2 ts=2 sts=2
 au! FileType jade :setlocal sw=2 ts=2 sts=2
 au! FileType stylus :setlocal sw=2 ts=2 sts=2
+au! FileType sh :setlocal sw=2 ts=2 sts=2
 
 " Scrolling
 set scrolloff=8
@@ -183,7 +184,7 @@ call Pl#Theme#InsertSegment('was_marker', 'after', 'lineinfo')
 
 " Go Vim (vim-go)
 let g:go_fmt_command = "goimports"
-let g:go_fmt_autosave = 0
+"let g:go_fmt_autosave = 0
 let g:go_def_mapping_enabled = 0
 let g:go_doc_keywordprg_enabled = 1
 let g:go_fmt_fail_silently = 1
@@ -192,11 +193,19 @@ au FileType go nmap gd <Plug>(go-def-vertical)
 au FileType go nmap gb <Plug>(go-doc-browser)
 
 " Syntastic
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+
+let g:syntastic_check_on_wq = 0
+"let g:syntastic_auto_jump = 3
+let g:syntastic_aggregate_errors = 1
+
 let g:syntastic_mode_map = {
     \ "mode": "active",
     \ "active_filetypes": [],
     \ "passive_filetypes": ["go"] }
 
+silent! au FileType go nmap <silent> <Leader>s :SyntasticCheck<CR>
 
 " }}}
 "
@@ -473,3 +482,9 @@ function! XTermPasteBegin()
   return ""
 endfunction
 
+" yank to system on OSX
+function! ClipboardYank()
+  call system('pbcopy', @@)
+endfunction
+
+vnoremap <silent> <Leader>y y:call ClipboardYank()<cr>
