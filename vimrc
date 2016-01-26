@@ -57,6 +57,7 @@ set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest    " compiled obj files
 set wildignore+=*.pyc                               " compiled python bytecode
 set wildignore+=*.rbc                               " compiled ruby bytecode
 " set wildignore+=migrations                        " django migrations
+set wildignore+=*/bin/*
 
 set wildignore+=vendor/gems/*                       " gems
 set wildignore+=node_modules/*                      " node_modules
@@ -69,6 +70,7 @@ set wildignore+=.DS_Store                           " Mac OSX
 set wildignore+=tags
 set wildignore+=*/tmp/*
 set wildignore+=*/vendor/*
+set wildignore+=*/Godeps/*
 set wildignore+=*/spec/vcr/*
 set wildignore+=*/public/*
 set wildignore+=*/chef/*
@@ -197,13 +199,14 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 
 let g:syntastic_check_on_wq = 0
+let g:syntastic_check_on_open = 1
 "let g:syntastic_auto_jump = 3
 let g:syntastic_aggregate_errors = 1
 
-let g:syntastic_mode_map = {
-    \ "mode": "active",
-    \ "active_filetypes": [],
-    \ "passive_filetypes": ["go"] }
+"let g:syntastic_mode_map = {
+"    \ "mode": "active",
+"    \ "active_filetypes": [],
+"    \ "passive_filetypes": ["go"] }
 
 silent! au FileType go nmap <silent> <Leader>s :SyntasticCheck<CR>
 
@@ -307,7 +310,7 @@ let g:ctrlp_map = "<Leader>t"
 let g:ctrlp_cmd = "CtrlP"
 
 let g:ctrlp_working_path_mode = 'rc'
-let g:ctrlp_custom_ignore = '\v[\/]\.vendor$'
+let g:ctrlp_custom_ignore = '\v[\/]\.(vendor)$'
 
 " Remember last location in file
 if has("autocmd")

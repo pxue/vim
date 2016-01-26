@@ -8,3 +8,4 @@ Rakefile
 backup/*
 tags
 doc/tags
+/tmp/
