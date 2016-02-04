@@ -1,5 +1,5 @@
-" Last updated: December 13, 2011
-" Note: finally have some time to kill and really need to clean out the vimrc
+" Last updated: Feb, 2016
+" Note: Spring cleaning...
 
 " Preamble ---------------------------------------------------------- {{{
 filetype off
@@ -460,17 +460,6 @@ call s:DefineCommand("touch", "Touch")
 call s:DefineCommand("rm", "Remove")
 call s:DefineCommand("e", "Edit")
 call s:DefineCommand("mkdir", "Mkdir")
-
-" vimtmux
-map <Leader>pt :call VimuxRunCommand("clear; python manage.py runtests nd")
-map <Leader>ps :call VimuxRunCommand("clear; python manage.py shell")<CR>
-map <Leader>vp :VimuxPromptCommand<CR>
-map <Leader>vi :VimuxInspectRunner<CR>
-map <Leader>vl :VimuxRunLastCommand<CR>
-map <Leader>vq :VimuxCloseRunner<CR>
-map <Leader>vx :VimuxClosePanes<CR>
-map <Leader>vs :VimuxInterruptRunner<CR>
-map <Leader>vc :VimuxClearRunnerHistory<CR>
 
 " auto set paste on copy from system
 let &t_SI .= "\<Esc>[?2004h"

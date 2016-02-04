@@ -58,12 +58,6 @@
 [submodule "bundle/vim-syntastic"]
 	path = bundle/vim-syntastic
 	url = https://github.com/scrooloose/syntastic.git
-[submodule "vimux"]
-	path = vimux
-	url = git://github.com/benmills/vimux.git
-[submodule "bundle/vimux"]
-	path = bundle/vimux
-	url = git://github.com/benmills/vimux.git
 [submodule "bundle/vim-mercenary"]
 	path = bundle/vim-mercenary
 	url = git://github.com/phleet/vim-mercenary.git
