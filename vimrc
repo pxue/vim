@@ -292,17 +292,9 @@ augroup END
 let g:ackprg="ack -H --group --nocolumn --ignore-dir={.vendor,log,vendor}"
 silent! nmap <unique> <silent> <Leader>f :Ack<space>
 
-" Without setting this, ZoomWin restores windows in a way that causes
-" equalalways behavior to be triggered the next time CommandT is used.
-" This is likely a bludgeon to solve some other issue, but it works
-set noequalalways
-
 " NERDTree configuration
 let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
 map <Leader>n :NERDTreeToggle<CR>
-
-" ZoomWin configuration
-map <Leader><Leader> :ZoomWin<CR>
 
 " ControlP configuration
 let g:ctrlp_map = "<Leader>t"
