@@ -60,7 +60,8 @@ set wildignore+=*.rbc                               " compiled ruby bytecode
 set wildignore+=*/bin/*
 
 set wildignore+=vendor/gems/*                       " gems
-set wildignore+=node_modules/*                      " node_modules
+set wildignore+=*/node_modules/*                      " node_modules
+set wildignore+=*/sourcemaps/*                        " source maps
 
 set wildignore+=*.orig                              " hg backup files
 
@@ -78,10 +79,16 @@ set wildignore+=*/coverage/*
 set wildignore+=*/log/*
 set wildignore+=*.png,*.jpg,*.otf,*.woff,*.jpeg,*.orig
 
+" gulp
+set wildignore+=*/build/*
+
+" other
+set wildignore+=*.*~,*~,*.swo,*.swp,*.swm,*.swn    " vim swap
+
 " {{{
 
 " Save when losing focus
-au FocusLost * :wa
+"au FocusLost * :wa
 
 " Resize splits when the window is resized
 au VimResized * exe "normal! \<c-w>="
@@ -186,10 +193,9 @@ call Pl#Theme#InsertSegment('was_marker', 'after', 'lineinfo')
 
 " Go Vim (vim-go)
 let g:go_fmt_command = "goimports"
-"let g:go_fmt_autosave = 0
+"let g:go_fmt_autosave = 1
 let g:go_def_mapping_enabled = 0
 let g:go_doc_keywordprg_enabled = 1
-let g:go_fmt_fail_silently = 1
 
 au FileType go nmap gd <Plug>(go-def-vertical)
 au FileType go nmap gb <Plug>(go-doc-browser)
@@ -205,7 +211,6 @@ let g:syntastic_aggregate_errors = 1
 
 silent! au FileType go nmap <silent> <Leader>s :SyntasticCheck<CR>
 
-"let g:syntastic_go_checkers = ['go', 'golint', 'govet', 'errcheck']
 let g:syntastic_go_checkers = ['go']
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 
@@ -289,7 +294,7 @@ augroup END
 "
 " Ack-grep in vim
 "let g:ackprg="ack-grep -H -i -l --no-color --group --nocolumn --nofollow --max-count=1"
-let g:ackprg="ack -H --group --nocolumn --ignore-dir={.vendor,log,vendor}"
+let g:ackprg="ack -H --group --nocolumn --ignore-dir={tmp,build,.vendor,log,vendor,sourcemaps,node_modules}"
 silent! nmap <unique> <silent> <Leader>f :Ack<space>
 
 " NERDTree configuration
@@ -311,7 +316,7 @@ endif
 
 " Project Tree
 autocmd VimEnter * call s:CdIfDirectory(expand("<amatch>"))
-autocmd FocusGained * call s:UpdateNERDTree()
+"autocmd FocusGained * call s:UpdateNERDTree()
 autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
 
 
