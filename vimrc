@@ -196,6 +196,7 @@ let g:go_fmt_command = "goimports"
 "let g:go_fmt_autosave = 1
 let g:go_def_mapping_enabled = 0
 let g:go_doc_keywordprg_enabled = 1
+let g:go_list_type = "quickfix"
 
 au FileType go nmap gd <Plug>(go-def-vertical)
 au FileType go nmap gb <Plug>(go-doc-browser)
