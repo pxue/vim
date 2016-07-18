@@ -141,11 +141,6 @@ let maplocalleader = "\\"
 " Delete word undercursor in insert mode
 :imap <C-d> <C-[>diwi
 
-" system clipboard copying in visual mode
-"vmap <C-c> y:call system("xclip -i -selection clipboard", getreg("\""))<CR>
-"nmap <C-v> :call setreg("\"",system("xclip -o -selection clipboard"))<CR>p
-"
-
 " Insert Mode Movement
 imap <C-b> <Esc>`^bi
 imap <C-w> <Esc>`^wi
@@ -209,6 +204,7 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_check_on_open = 0
 "let g:syntastic_auto_jump = 3
 let g:syntastic_aggregate_errors = 1
+let g:go_auto_sameids = 1
 
 silent! au FileType go nmap <silent> <Leader>s :SyntasticCheck<CR>
 
@@ -260,33 +256,6 @@ au BufNewFile,BufRead *.json set ft=json
 " ruby shift/soft tab width
 au BufNewFile,BufRead *.rb setlocal softtabstop=2 shiftwidth=2
 au BufNewFile,BufRead *.rake setlocal softtabstop=2 shiftwidth=2
-
-
-" }}}
-" Django {{{
-
-augroup ft_django
-    au!
-
-    au BufNewFile,BufRead urls.py           setlocal nowrap
-    au BufNewFile,BufRead urls.py           normal! zR
-    au BufNewFile,BufRead dashboard.py      normal! zR
-    au BufNewFile,BufRead local_settings.py normal! zR
-
-    au BufNewFile,BufRead admin.py     setlocal filetype=python.django
-    au BufNewFile,BufRead urls.py      setlocal filetype=python.django
-    au BufNewFile,BufRead urls.py      setlocal textwidth=0 tabstop=8
-    au BufNewFile,BufRead models.py    setlocal filetype=python.django
-    au BufNewFile,BufRead views.py     setlocal filetype=python.django
-    au BufNewFile,BufRead settings.py  setlocal filetype=python.django
-    au BufNewFile,BufRead settings.py  setlocal foldmethod=marker
-    au BufNewFile,BufRead forms.py     setlocal filetype=python.django
-    au BufNewFile,BufRead common_settings.py  setlocal filetype=python.django
-    au BufNewFile,BufRead common_settings.py  setlocal foldmethod=marker
-augroup END
-
-
-" }}}
 
 
 " {{{
