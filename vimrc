@@ -182,34 +182,34 @@ let g:user_zen_expandabbr_key='<Leader>e'
 let g:user_zen_next_key='<Leader>zn'
 let g:user_zen_prev_key='<Leader>zN'
 
-" Powerline
-let g:Powerline_stl_path_style = 'filename'
-call Pl#Theme#InsertSegment('was_marker', 'after', 'lineinfo')
-
 " Go Vim (vim-go)
 let g:go_fmt_command = "goimports"
-"let g:go_fmt_autosave = 1
+let g:go_metalinter_autosave = 0
+let g:go_metalinter_command = ""
 let g:go_def_mapping_enabled = 0
+let g:go_dispatch_enabled = 1
 let g:go_doc_keywordprg_enabled = 1
 let g:go_list_type = "quickfix"
+let g:go_def_mode = 'godef'
 
 au FileType go nmap gd <Plug>(go-def-vertical)
-au FileType go nmap gb <Plug>(go-doc-browser)
+au FileType go nmap <silent> gi <Plug>(go-implements)
+au FileType go nmap <silent> gl :GoDecls<CR>
+"au FileType go nmap <silent> <Leader>b :GoBuild<CR>
 
 " Syntastic
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 
-let g:syntastic_check_on_wq = 0
+"let g:syntastic_check_on_wq = 0
 let g:syntastic_check_on_open = 0
-"let g:syntastic_auto_jump = 3
 let g:syntastic_aggregate_errors = 1
-let g:go_auto_sameids = 1
 
-silent! au FileType go nmap <silent> <Leader>s :SyntasticCheck<CR>
+let g:syntastic_go_go_build_args = "-i -buildmode=archive"
+"silent! au FileType go nmap <silent> <Leader>s :SyntasticCheck<CR>
 
-let g:syntastic_go_checkers = ['go']
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+"let g:syntastic_go_checkers = ['gometalinter']
+let g:syntastic_ignore_files = ['*vendor*', '*build*', '*bin*', '*tests*']
 
 " }}}
 "
