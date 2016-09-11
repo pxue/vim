@@ -184,6 +184,7 @@ let g:user_zen_prev_key='<Leader>zN'
 
 " Go Vim (vim-go)
 let g:go_fmt_command = "goimports"
+let g:go_fmt_fail_silently = 1
 let g:go_metalinter_autosave = 0
 let g:go_metalinter_command = ""
 let g:go_def_mapping_enabled = 0
@@ -201,15 +202,20 @@ au FileType go nmap <silent> gl :GoDecls<CR>
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 
-"let g:syntastic_check_on_wq = 0
+let g:syntastic_check_on_wq = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_aggregate_errors = 1
 
-let g:syntastic_go_go_build_args = "-i -buildmode=archive"
+let g:syntastic_go_go_build_args = "-i -gcflags='-e' -buildmode=archive"
+let g:syntastic_go_go_test_args = "-i -gcflags='-e' -buildmode=archive"
 "silent! au FileType go nmap <silent> <Leader>s :SyntasticCheck<CR>
 
 "let g:syntastic_go_checkers = ['gometalinter']
-let g:syntastic_ignore_files = ['*vendor*', '*build*', '*bin*', '*tests*']
+let g:syntastic_ignore_files = ['*vendor*', '*build*', '*bin*', '*tests*', '*etc*']
+"let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+
+" jsx
+let g:jsx_ext_required = 0
 
 " }}}
 "
