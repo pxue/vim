@@ -52,3 +52,12 @@
 [submodule "bundle/vim-powerline"]
 	path = bundle/vim-powerline
 	url = https://github.com/Lokaltog/vim-powerline
+[submodule "bundle/neomake"]
+	path = bundle/neomake
+	url = https://github.com/neomake/neomake.git
+[submodule "bundle/vim-pbxproj"]
+	path = bundle/vim-pbxproj
+	url = https://github.com/cfdrake/vim-pbxproj
+[submodule "bundle/vim-toml"]
+	path = bundle/vim-toml
+	url = https://github.com/cespare/vim-toml
