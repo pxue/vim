@@ -12,8 +12,10 @@ set number
 set ruler
 syntax on
 
-" encoding
-set encoding=utf-8
+" encoding, by default nvim sets it to utf8
+if !has('nvim')
+    set encoding=utf-8
+endif
 
 set showmode
 set hidden
@@ -85,6 +87,9 @@ set wildignore+=*/build/*
 " other
 set wildignore+=*.*~,*~,*.swo,*.swp,*.swm,*.swn    " vim swap
 
+" ai stuff
+set wildignore+=*.noun,*.sense
+
 " {{{
 
 " Save when losing focus
@@ -94,7 +99,7 @@ set wildignore+=*.*~,*~,*.swo,*.swp,*.swm,*.swn    " vim swap
 au VimResized * exe "normal! \<c-w>="
 
 " Backups {{{
-set undodir=~/.vim/tmp/undo//       " undo files
+set undodir=~/.vim/tmp/undo/       " undo files
 set backupdir=~/.vim/backup
 set directory=~/.vim/backup
 set backup
@@ -109,12 +114,13 @@ set softtabstop=4
 set textwidth=80
 set nowrap
 set formatoptions+=qrnl1
-set list listchars=tab:\ \ ,trail:·
+"set list listchars=tab:\ \ ,trail:·
 
 au! FileType javascript :setlocal sw=2 ts=2 sts=2
 au! FileType jade :setlocal sw=2 ts=2 sts=2
 au! FileType stylus :setlocal sw=2 ts=2 sts=2
 au! FileType sh :setlocal sw=2 ts=2 sts=2
+au! FileType toml :setlocal sw=2 ts=2 sts=2
 
 " Scrolling
 set scrolloff=8
@@ -212,7 +218,29 @@ let g:syntastic_go_go_test_args = "-i -gcflags='-e' -buildmode=archive"
 
 "let g:syntastic_go_checkers = ['gometalinter']
 let g:syntastic_ignore_files = ['*vendor*', '*build*', '*bin*', '*tests*', '*etc*']
-"let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['python'] }
+
+" python linter
+"let g:syntastic_python_checkers = ['pylint']
+
+"
+" Neomake
+let g:neomake_open_list = 2
+let g:neomake_python_enabled_makers = ['pylint']
+autocmd! BufWritePost *.py Neomake
+
+let g:neomake_warning_sign = {
+    \   'text': '⚠',
+    \   'linehl': 'SyntasticWarningLine',
+    \   'texthl': 'SyntasticWarningSign',
+    \ }
+
+" use syntastic like error sign
+let g:neomake_error_sign = {
+    \ 'text': '>>',
+    \ 'linehl': 'SyntasitcErrorLine',
+    \ 'texthl': 'SyntasticErrorSign',
+    \ }
 
 " jsx
 let g:jsx_ext_required = 0
@@ -263,6 +291,8 @@ au BufNewFile,BufRead *.json set ft=json
 au BufNewFile,BufRead *.rb setlocal softtabstop=2 shiftwidth=2
 au BufNewFile,BufRead *.rake setlocal softtabstop=2 shiftwidth=2
 
+" python auto yapf
+"au Filetype python au BufWritePre <buffer> call yapf#YAPF()
 
 " {{{
 " Function mappings ---------------------------------------------------------
@@ -270,11 +300,11 @@ au BufNewFile,BufRead *.rake setlocal softtabstop=2 shiftwidth=2
 "
 " Ack-grep in vim
 "let g:ackprg="ack-grep -H -i -l --no-color --group --nocolumn --nofollow --max-count=1"
-let g:ackprg="ack -H --group --nocolumn --ignore-dir={tmp,build,.vendor,log,vendor,sourcemaps,node_modules}"
+let g:ackprg="ack -H --group --nocolumn --ignore-dir={dist,tmp,build,.vendor,log,vendor,sourcemaps,node_modules,.venv}"
 silent! nmap <unique> <silent> <Leader>f :Ack<space>
 
 " NERDTree configuration
-let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
+let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$', '__pycache__']
 map <Leader>n :NERDTreeToggle<CR>
 
 " ControlP configuration
@@ -283,6 +313,9 @@ let g:ctrlp_cmd = "CtrlP"
 
 let g:ctrlp_working_path_mode = 'rc'
 let g:ctrlp_custom_ignore = '\v[\/]\.(vendor)$'
+
+" Vim markdown
+let vim_markdown_preview_github=1
 
 " Remember last location in file
 if has("autocmd")
@@ -298,7 +331,7 @@ autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
 
 " Close all open buffers on entering a window if the only
 " buffer that's left is the NERDTree buffer
-function s:CloseIfOnlyNerdTreeLeft()
+function! s:CloseIfOnlyNerdTreeLeft()
   if exists("t:NERDTreeBufName")
     if bufwinnr(t:NERDTreeBufName) != -1
       if winnr("$") == 1
@@ -309,7 +342,7 @@ function s:CloseIfOnlyNerdTreeLeft()
 endfunction
 
 " If the parameter is a directory, cd into it
-function s:CdIfDirectory(directory)
+function! s:CdIfDirectory(directory)
   let explicitDirectory = isdirectory(a:directory)
   let directory = explicitDirectory || empty(a:directory)
 
@@ -335,7 +368,7 @@ function s:CdIfDirectory(directory)
 endfunction
 
 " NERDTree utility function
-function s:UpdateNERDTree(...)
+function! s:UpdateNERDTree(...)
   let stay = 0
 
   if(exists("a:1"))
@@ -355,27 +388,24 @@ function s:UpdateNERDTree(...)
 endfunction
 
 " Utility functions to create file commands
-function s:CommandCabbr(abbreviation, expansion)
+function! s:CommandCabbr(abbreviation, expansion)
   execute 'cabbrev ' . a:abbreviation . ' <c-r>=getcmdpos() == 1 && getcmdtype() == ":" ? "' . a:expansion . '" : "' . a:abbreviation . '"<CR>'
 endfunction
 
-function s:FileCommand(name, ...)
-  if exists("a:1")
-    let funcname = a:1
-  else
+function! s:FileCommand(name, ...)
+  if !exists("a:name")
     let funcname = a:name
+    execute 'command -nargs=1 -complete=file ' . a:name . ' :call ' . funcname . '(<f-args>)'
   endif
-
-  execute 'command -nargs=1 -complete=file ' . a:name . ' :call ' . funcname . '(<f-args>)'
 endfunction
 
-function s:DefineCommand(name, destination)
+function! s:DefineCommand(name, destination)
   call s:FileCommand(a:destination)
   call s:CommandCabbr(a:name, a:destination)
 endfunction
 
 " Public NERDTree-aware versions of builtin functions
-function ChangeDirectory(dir, ...)
+function! ChangeDirectory(dir, ...)
   execute "cd " . fnameescape(a:dir)
   let stay = exists("a:1") ? a:1 : 1
 
@@ -386,12 +416,12 @@ function ChangeDirectory(dir, ...)
   endif
 endfunction
 
-function Touch(file)
+function! Touch(file)
   execute "!touch " . shellescape(a:file, 1)
   call s:UpdateNERDTree()
 endfunction
 
-function Remove(file)
+function! Remove(file)
   let current_path = expand("%")
   let removed_path = fnamemodify(a:file, ":p")
 
@@ -404,12 +434,12 @@ function Remove(file)
   call s:UpdateNERDTree()
 endfunction
 
-function Mkdir(file)
+function! Mkdir(file)
   execute "!mkdir " . shellescape(a:file, 1)
   call s:UpdateNERDTree()
 endfunction
 
-function Edit(file)
+function! Edit(file)
   if exists("b:NERDTreeRoot")
     wincmd p
   endif
@@ -451,4 +481,8 @@ function! ClipboardYank()
   call system('pbcopy', @@)
 endfunction
 
+" yank to OSX clipboard
 vnoremap <silent> <Leader>y y:call ClipboardYank()<cr>
+" quick edit vimrc in vsplit
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
