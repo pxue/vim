@@ -90,6 +90,10 @@ set wildignore+=*.*~,*~,*.swo,*.swp,*.swm,*.swn    " vim swap
 " ai stuff
 set wildignore+=*.noun,*.sense
 
+" disable omnicomplete from sql
+let g:omni_sql_no_default_maps = 1
+
+
 " {{{
 
 " Save when losing focus
@@ -132,6 +136,9 @@ set hlsearch
 set incsearch
 set ignorecase
 set smartcase
+
+" Local vimrc support
+:set exrc
 
 " Default colour scheme
 color wombat256
@@ -198,6 +205,8 @@ let g:go_dispatch_enabled = 1
 let g:go_doc_keywordprg_enabled = 1
 let g:go_list_type = "quickfix"
 let g:go_def_mode = 'godef'
+"let g:go_auto_type_info = 1
+"let g:go_addtags_transform = "snakecase"
 
 au FileType go nmap gd <Plug>(go-def-vertical)
 au FileType go nmap <silent> gi <Plug>(go-implements)
@@ -207,6 +216,7 @@ au FileType go nmap <silent> gl :GoDecls<CR>
 " Syntastic
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_jump = 3
 
 let g:syntastic_check_on_wq = 1
 let g:syntastic_check_on_open = 0
@@ -244,6 +254,15 @@ let g:neomake_error_sign = {
 
 " jsx
 let g:jsx_ext_required = 0
+let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_jsx_enabled_makers = ['eslint']
+autocmd! BufWritePost *.js Neomake
+autocmd! BufWritePost *.jsx Neomake
+
+"
+" Neofmt
+autocmd BufWritePre *.js Neoformat
+autocmd BufWritePre *.jsx Neoformat
 
 " }}}
 "
