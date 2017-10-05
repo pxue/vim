@@ -125,6 +125,7 @@ au! FileType jade :setlocal sw=2 ts=2 sts=2
 au! FileType stylus :setlocal sw=2 ts=2 sts=2
 au! FileType sh :setlocal sw=2 ts=2 sts=2
 au! FileType toml :setlocal sw=2 ts=2 sts=2
+au! FileType html :setlocal sw=2 ts=2 sts=2
 
 " Scrolling
 set scrolloff=8
@@ -228,7 +229,7 @@ let g:syntastic_go_go_test_args = "-i -gcflags='-e' -buildmode=archive"
 
 "let g:syntastic_go_checkers = ['gometalinter']
 let g:syntastic_ignore_files = ['*vendor*', '*build*', '*bin*', '*tests*', '*etc*']
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['python'] }
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['python', 'html'] }
 
 " python linter
 "let g:syntastic_python_checkers = ['pylint']
@@ -324,7 +325,8 @@ silent! nmap <unique> <silent> <Leader>f :Ack<space>
 
 " NERDTree configuration
 let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$', '__pycache__']
-map <Leader>n :NERDTreeToggle<CR>
+map <Leader>b :NERDTreeToggle<CR>
+map <Leader>n :NERDTreeFind<CR>
 
 " ControlP configuration
 let g:ctrlp_map = "<Leader>t"
