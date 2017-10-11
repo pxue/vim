@@ -1,1 +1,1 @@
-%!jq "."
+:silent exec "%!jq \".\""
