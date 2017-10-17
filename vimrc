@@ -265,6 +265,12 @@ autocmd! BufWritePost *.jsx Neomake
 autocmd BufWritePre *.js Neoformat
 autocmd BufWritePre *.jsx Neoformat
 
+let g:neoformat_javascript_prettier = {
+            \ 'exe': 'prettier',
+            \ 'args': ['--no-semi', '--print-width 80']
+            \ }
+
+
 " }}}
 "
 
