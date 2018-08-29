@@ -86,9 +86,13 @@ set wildignore+=*/build/*
 
 " other
 set wildignore+=*.*~,*~,*.swo,*.swp,*.swm,*.swn    " vim swap
+set wildignore+=*/env/*,*/ENV/*,*/virtualenv/*     " local virtual env
 
 " ai stuff
 set wildignore+=*.noun,*.sense
+
+" jest stuff
+set wildignore+=*/__coverage__/*
 
 " disable omnicomplete from sql
 let g:omni_sql_no_default_maps = 1
@@ -206,8 +210,8 @@ let g:go_dispatch_enabled = 1
 let g:go_doc_keywordprg_enabled = 1
 let g:go_list_type = "quickfix"
 let g:go_def_mode = 'godef'
+let g:go_addtags_transform = 'camelcase'
 "let g:go_auto_type_info = 1
-"let g:go_addtags_transform = "snakecase"
 
 au FileType go nmap gd <Plug>(go-def-vertical)
 au FileType go nmap <silent> gi <Plug>(go-implements)
@@ -266,16 +270,12 @@ autocmd BufWritePre *.js Neoformat
 autocmd BufWritePre *.jsx Neoformat
 
 let g:neoformat_javascript_prettier = {
-            \ 'exe': 'prettier',
-            \ 'args': ['--no-semi', '--print-width 80']
+            \ 'exe': 'prettiereslint',
+            \ 'args': ['--print-width 80']
             \ }
 
 
-" }}}
-"
-
-"{{{
-" Status line ------------------------------------------------------ {{{
+" Status line ------------------------------------------------------
 set laststatus=2
 
 " Show (partial) command in the status line
@@ -326,7 +326,7 @@ au BufNewFile,BufRead *.rake setlocal softtabstop=2 shiftwidth=2
 "
 " Ack-grep in vim
 "let g:ackprg="ack-grep -H -i -l --no-color --group --nocolumn --nofollow --max-count=1"
-let g:ackprg="ack -H --group --nocolumn --ignore-dir={dist,tmp,build,.vendor,log,vendor,sourcemaps,node_modules,.venv}"
+let g:ackprg="ack -H --group --nocolumn --ignore-dir={__coverage__,ENV,dist,tmp,build,.vendor,log,vendor,sourcemaps,node_modules,.venv}"
 silent! nmap <unique> <silent> <Leader>f :Ack<space>
 
 " NERDTree configuration
