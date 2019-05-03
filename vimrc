@@ -209,7 +209,8 @@ let g:go_def_mapping_enabled = 0
 let g:go_dispatch_enabled = 1
 let g:go_doc_keywordprg_enabled = 1
 let g:go_list_type = "quickfix"
-let g:go_def_mode = 'godef'
+let g:go_def_mode = 'gopls'
+let g:go_info_mode='gopls'
 let g:go_addtags_transform = 'camelcase'
 "let g:go_auto_type_info = 1
 

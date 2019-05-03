@@ -26,3 +26,7 @@ vim-syntastic (3.6.0-261-gde0106e)
 vim-unimpaired (v1.2-38-g11dc568)
 ```
 
+
+## Setting up NVIM
+
+symlink vim folder to .config/nvim
