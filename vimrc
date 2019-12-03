@@ -40,6 +40,11 @@ set mouse=a
 set showmatch
 set diffopt=iwhite
 
+" SGR protocol
+if has("mouse_sgr")
+    set ttymouse=sgr
+end
+
 set t_Co=256
 
 " allow backspacing over everything in insert mode
@@ -168,12 +173,12 @@ imap <C-a> <Esc>`^Ai
 map <Leader>i :InlineEdit<CR>
 
 " Save with control-s
-map <C-s> :w<CR>
-imap <C-S> <Esc>`^:w<CR>i
+map <C-s> :w!<CR>
+imap <C-S> <Esc>`^:w!<CR>i
 
 " Quit with control-q
-map <C-q> :wq<CR>
-imap <C-Q> <Esc>:wq<CR>
+map <C-q> :wq!<CR>
+imap <C-Q> <Esc>:wq!<CR>
 
 " Easier tab navigation
 nnoremap <silent> <C-t>     :tabnew<CR>
@@ -223,16 +228,18 @@ au FileType go nmap <silent> gl :GoDecls<CR>
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_auto_jump = 3
+"let g:syntastic_debug = 3
 
 let g:syntastic_check_on_wq = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_aggregate_errors = 1
 
-let g:syntastic_go_go_build_args = "-i -gcflags='-e' -buildmode=archive"
-let g:syntastic_go_go_test_args = "-i -gcflags='-e' -buildmode=archive"
+"let g:syntastic_go_go_build_args = "-i -gcflags='-e' -buildmode=default"
+"let g:syntastic_go_go_test_args = "-i -gcflags='-e' -buildmode=default"
 "silent! au FileType go nmap <silent> <Leader>s :SyntasticCheck<CR>
 
-"let g:syntastic_go_checkers = ['gometalinter']
+let g:syntastic_go_checkers = ['go']
+"let g:syntastic_go_checkers = ['gofmt']
 let g:syntastic_ignore_files = ['*vendor*', '*build*', '*bin*', '*tests*', '*etc*']
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['python', 'html'] }
 
@@ -242,7 +249,7 @@ let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['python', '
 "
 " Neomake
 let g:neomake_open_list = 2
-let g:neomake_python_enabled_makers = ['pylint']
+"let g:neomake_python_enabled_makers = ['pylint']
 autocmd! BufWritePost *.py Neomake
 
 let g:neomake_warning_sign = {
@@ -264,11 +271,14 @@ let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_jsx_enabled_makers = ['eslint']
 autocmd! BufWritePost *.js Neomake
 autocmd! BufWritePost *.jsx Neomake
+autocmd! BufWritePost *.jsw Neomake
 
 "
 " Neofmt
+"let g:neoformat_verbose = 1
 autocmd BufWritePre *.js Neoformat
 autocmd BufWritePre *.jsx Neoformat
+autocmd BufWritePre *.jsw Neoformat
 
 let g:neoformat_javascript_prettier = {
             \ 'exe': 'prettiereslint',
@@ -313,6 +323,9 @@ set statusline+=\ (line\ %l\/%L,\ col\ %03c)
 " File types
 " add json syntax highlighting
 au BufNewFile,BufRead *.json set ft=json
+
+" Wix jsw modules
+au BufNewFile,BufRead *.jsw set ft=javascript
 
 " ruby shift/soft tab width
 au BufNewFile,BufRead *.rb setlocal softtabstop=2 shiftwidth=2
