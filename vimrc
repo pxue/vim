@@ -1,3 +1,7 @@
+" Debug
+"let g:syntastic_debug = 3
+"let g:go_debug = ['lsp']
+"
 " Last updated: Feb, 2016
 " Note: Spring cleaning...
 
@@ -195,6 +199,10 @@ nmap <C-Down> ]e
 vmap <C-Up> [egv
 vmap <C-Down> ]egv
 
+" Map j/k for popup menu when visible
+inoremap <expr> j pumvisible() ? "\<C-N>" : "j"
+inoremap <expr> k pumvisible() ? "\<C-P>" : "k"
+
 " Set Paste ON/OFF
 "map <C-p> :set paste<CR>
 "map <S-p> :set nopaste<CR>
@@ -225,22 +233,22 @@ au FileType go nmap <silent> gl :GoDecls<CR>
 "au FileType go nmap <silent> <Leader>b :GoBuild<CR>
 
 " Syntastic
+"
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_auto_jump = 3
-"let g:syntastic_debug = 3
 
 let g:syntastic_check_on_wq = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_aggregate_errors = 1
 
-"let g:syntastic_go_go_build_args = "-i -gcflags='-e' -buildmode=default"
-"let g:syntastic_go_go_test_args = "-i -gcflags='-e' -buildmode=default"
+let g:syntastic_go_go_build_args = "-i -gcflags='-e' -buildmode=default -o /dev/null"
+let g:syntastic_go_go_test_args = "-i -gcflags='-e' -buildmode=default -o /dev/null"
 "silent! au FileType go nmap <silent> <Leader>s :SyntasticCheck<CR>
 
 let g:syntastic_go_checkers = ['go']
 "let g:syntastic_go_checkers = ['gofmt']
-let g:syntastic_ignore_files = ['*vendor*', '*build*', '*bin*', '*tests*', '*etc*']
+let g:syntastic_ignore_files = ['*vendor*', '*build*', '*bin*', '*tests*', '*etc*', '*.json']
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['python', 'html'] }
 
 " python linter
@@ -285,6 +293,10 @@ let g:neoformat_javascript_prettier = {
             \ 'args': ['--print-width 80']
             \ }
 
+"
+" vim-qf
+"
+let g:qf_loclist_window_bottom=0
 
 " Status line ------------------------------------------------------
 set laststatus=2
