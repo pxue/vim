@@ -139,6 +139,7 @@ au! FileType stylus :setlocal sw=2 ts=2 sts=2
 au! FileType sh :setlocal sw=2 ts=2 sts=2
 au! FileType toml :setlocal sw=2 ts=2 sts=2
 au! FileType html :setlocal sw=2 ts=2 sts=2
+au! FileType qf setlocal wrap
 
 " Scrolling
 set scrolloff=8
