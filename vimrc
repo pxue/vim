@@ -231,27 +231,29 @@ let g:go_addtags_transform = 'camelcase'
 au FileType go nmap gd <Plug>(go-def-vertical)
 au FileType go nmap <silent> gi <Plug>(go-implements)
 au FileType go nmap <silent> gl :GoDecls<CR>
+autocmd! BufWritePost *.go GoBuild
 "au FileType go nmap <silent> <Leader>b :GoBuild<CR>
 
 " Syntastic
 "
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_auto_jump = 3
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_auto_jump = 3
 
-let g:syntastic_check_on_wq = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_aggregate_errors = 1
+"let g:syntastic_check_on_wq = 1
+"let g:syntastic_check_on_open = 0
+"let g:syntastic_aggregate_errors = 1
 
-let g:syntastic_go_go_build_args = "-i -gcflags='-e' -buildmode=default -o /dev/null"
-let g:syntastic_go_go_test_args = "-i -gcflags='-e' -buildmode=default -o /dev/null"
+"let g:syntastic_go_go_build_args = "-i -gcflags='-e' -buildmode=default -o /dev/null"
+"let g:syntastic_go_go_test_args = "-i -gcflags='-e' -buildmode=default -o /dev/null"
 "silent! au FileType go nmap <silent> <Leader>s :SyntasticCheck<CR>
 
-let g:syntastic_go_checkers = ['go']
-"let g:syntastic_go_checkers = ['gofmt']
-let g:syntastic_ignore_files = ['*vendor*', '*build*', '*bin*', '*tests*', '*etc*', '*.json']
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['python', 'html'] }
+"let g:syntastic_go_checkers = ['go']
+""let g:syntastic_go_checkers = ['gofmt']
+"let g:syntastic_ignore_files = ['*vendor*', '*build*', '*bin*', '*tests*', '*etc*', '*.json']
+"let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['python', 'html'] }
 
+"let g:syntastic_enable_signs = 0
 " python linter
 "let g:syntastic_python_checkers = ['pylint']
 
@@ -294,10 +296,45 @@ let g:neoformat_javascript_prettier = {
             \ 'args': ['--print-width 80']
             \ }
 
+" lens.vim
+let g:lens#disabled = 1
+
 "
 " vim-qf
 "
-let g:qf_loclist_window_bottom=0
+"let g:qf_loclist_window_bottom=0
+
+"
+" Toggle quick/location list
+function! GetBufferList()
+  redir =>buflist
+  silent! ls!
+  redir END
+  return buflist
+endfunction
+
+function! ToggleList(bufname, pfx)
+  let buflist = GetBufferList()
+  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+    if bufwinnr(bufnum) != -1
+      exec(a:pfx.'close')
+      return
+    endif
+  endfor
+  if a:pfx == 'l' && len(getloclist(0)) == 0
+      echohl ErrorMsg
+      echo "Location List is Empty."
+      return
+  endif
+  let winnr = winnr()
+  exec(a:pfx.'open')
+  if winnr() != winnr
+    wincmd p
+  endif
+endfunction
+
+nmap <silent> <leader>l :call ToggleList("Location List", 'l')<CR>
+"nmap <silent> <leader>e :call ToggleList("Quickfix List", 'c')<CR>
 
 " Status line ------------------------------------------------------
 set laststatus=2
