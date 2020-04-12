@@ -231,50 +231,27 @@ let g:go_addtags_transform = 'camelcase'
 au FileType go nmap gd <Plug>(go-def-vertical)
 au FileType go nmap <silent> gi <Plug>(go-implements)
 au FileType go nmap <silent> gl :GoDecls<CR>
-autocmd! BufWritePost *.go GoBuild
-"au FileType go nmap <silent> <Leader>b :GoBuild<CR>
-
-" Syntastic
-"
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_auto_jump = 3
-
-"let g:syntastic_check_on_wq = 1
-"let g:syntastic_check_on_open = 0
-"let g:syntastic_aggregate_errors = 1
-
-"let g:syntastic_go_go_build_args = "-i -gcflags='-e' -buildmode=default -o /dev/null"
-"let g:syntastic_go_go_test_args = "-i -gcflags='-e' -buildmode=default -o /dev/null"
-"silent! au FileType go nmap <silent> <Leader>s :SyntasticCheck<CR>
-
-"let g:syntastic_go_checkers = ['go']
-""let g:syntastic_go_checkers = ['gofmt']
-"let g:syntastic_ignore_files = ['*vendor*', '*build*', '*bin*', '*tests*', '*etc*', '*.json']
-"let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['python', 'html'] }
-
-"let g:syntastic_enable_signs = 0
-" python linter
-"let g:syntastic_python_checkers = ['pylint']
+"autocmd! BufWritePost *.go GoBuild
 
 "
 " Neomake
 let g:neomake_open_list = 2
-"let g:neomake_python_enabled_makers = ['pylint']
-autocmd! BufWritePost *.py Neomake
+let g:neomake_logfile = '/Users/paul/neomake.log'
 
-let g:neomake_warning_sign = {
-    \   'text': '⚠',
-    \   'linehl': 'SyntasticWarningLine',
-    \   'texthl': 'SyntasticWarningSign',
-    \ }
+"let g:neomake_warning_sign = {
+    "\   'text': '⚠',
+    "\   'linehl': 'SyntasticWarningLine',
+    "\   'texthl': 'ErrMsg',
+    "\ }
 
-" use syntastic like error sign
-let g:neomake_error_sign = {
-    \ 'text': '>>',
-    \ 'linehl': 'SyntasitcErrorLine',
-    \ 'texthl': 'SyntasticErrorSign',
-    \ }
+"" use syntastic like error sign
+"let g:neomake_error_sign = {
+    "\ 'text': '>>',
+    "\ 'texthl': 'NeomakeErrorSign',
+    "\ }
+
+" go
+autocmd! BufWritePost *.go Neomake
 
 " jsx
 let g:jsx_ext_required = 0
@@ -283,6 +260,10 @@ let g:neomake_jsx_enabled_makers = ['eslint']
 autocmd! BufWritePost *.js Neomake
 autocmd! BufWritePost *.jsx Neomake
 autocmd! BufWritePost *.jsw Neomake
+
+" python
+"let g:neomake_python_enabled_makers = ['pylint']
+autocmd! BufWritePost *.py Neomake
 
 "
 " Neofmt

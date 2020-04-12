@@ -31,9 +31,6 @@
 [submodule "bundle/vim-ctrlp"]
 	path = bundle/vim-ctrlp
 	url = https://github.com/kien/ctrlp.vim.git
-[submodule "bundle/vim-syntastic"]
-	path = bundle/vim-syntastic
-	url = https://github.com/scrooloose/syntastic.git
 [submodule "bundle/vim-json"]
 	path = bundle/vim-json
 	url = https://github.com/elzr/vim-json
@@ -79,6 +76,3 @@
 [submodule "bundle/animate.vim"]
 	path = bundle/animate.vim
 	url = https://github.com/camspiers/animate.vim
-[submodule "bundle/vim-markify"]
-	path = bundle/vim-markify
-	url = git@github.com:dhruvasagar/vim-markify.git
