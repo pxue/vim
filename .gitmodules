@@ -67,12 +67,3 @@
 [submodule "bundle/typescript-vim"]
 	path = bundle/typescript-vim
 	url = https://github.com/leafgarland/typescript-vim.git
-[submodule "bundle/vim-qf"]
-	path = bundle/vim-qf
-	url = https://github.com/romainl/vim-qf
-[submodule "bundle/lens.vim"]
-	path = bundle/lens.vim
-	url = https://github.com/camspiers/lens.vim
-[submodule "bundle/animate.vim"]
-	path = bundle/animate.vim
-	url = https://github.com/camspiers/animate.vim

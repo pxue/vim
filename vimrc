@@ -236,19 +236,18 @@ au FileType go nmap <silent> gl :GoDecls<CR>
 "
 " Neomake
 let g:neomake_open_list = 2
-let g:neomake_logfile = '/Users/paul/neomake.log'
+"let g:neomake_logfile = '/Users/paul/neomake.log'
 
-"let g:neomake_warning_sign = {
-    "\   'text': '⚠',
-    "\   'linehl': 'SyntasticWarningLine',
-    "\   'texthl': 'ErrMsg',
-    "\ }
+let g:neomake_warning_sign = {
+    \   'text': '⚠',
+    \   'texthl': 'NeomakeWarningSign',
+    \ }
 
 "" use syntastic like error sign
-"let g:neomake_error_sign = {
-    "\ 'text': '>>',
-    "\ 'texthl': 'NeomakeErrorSign',
-    "\ }
+let g:neomake_error_sign = {
+    \ 'text': '>>',
+    \ 'texthl': 'NeomakeErrorSign',
+    \ }
 
 " go
 autocmd! BufWritePost *.go Neomake
