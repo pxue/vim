@@ -30,3 +30,7 @@ vim-unimpaired (v1.2-38-g11dc568)
 ## Setting up NVIM
 
 symlink vim folder to .config/nvim
+
+## Update submodules
+
+git submodule update --recursive

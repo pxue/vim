@@ -186,7 +186,7 @@ map <C-q> :wq!<CR>
 imap <C-Q> <Esc>:wq!<CR>
 
 " Easier tab navigation
-nnoremap <silent> <C-t>     :tabnew<CR>
+nnoremap <silent> <C-t> :tabnew<CR>
 
 " Searching
 map N Nzz
@@ -231,16 +231,16 @@ let g:go_addtags_transform = 'camelcase'
 au FileType go nmap gd <Plug>(go-def-vertical)
 au FileType go nmap <silent> gi <Plug>(go-implements)
 au FileType go nmap <silent> gl :GoDecls<CR>
-"autocmd! BufWritePost *.go GoBuild
 
 "
 " Neomake
 let g:neomake_open_list = 2
-"let g:neomake_logfile = '/Users/paul/neomake.log'
+"let g:neomake_verbose = 1
+"let g:neomake_logfile = $PWD .'neomake.log'
 
 let g:neomake_warning_sign = {
-    \   'text': '⚠',
-    \   'texthl': 'NeomakeWarningSign',
+    \   'text': '!!',
+    \   'texthl': 'Todo',
     \ }
 
 "" use syntastic like error sign
@@ -256,8 +256,31 @@ autocmd! BufWritePost *.go Neomake
 let g:jsx_ext_required = 0
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_jsx_enabled_makers = ['eslint']
+
+let g:neomake_javascript_eslint_maker = {
+  \ 'exe': 'eslint',
+  \ 'args': ['--format=compact'],
+  \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
+  \   '%W%f: line %l\, col %c\, Warning - %m,%-G,%-G%*\d problems%#',
+  \ 'output_stream': 'stdout',
+  \ }
+
+" tsx
+let g:neomake_typescript_enabled_makers = ['eslint']
+let g:neomake_typescript_eslint_exe = $PWD .'/node_modules/.bin/eslint'
+
+"let g:neomake_typescript_eslint_maker = {
+  "\ 'exe': 'eslint',
+  "\ 'args': ['--format=compact', '--ext=.ts,.tsx', '--ignore-path=.eslintignore'],
+  "\ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
+  "\   '%W%f: line %l\, col %c\, Warning - %m,%-G,%-G%*\d problems%#',
+  "\ 'output_stream': 'stdout',
+  "\ }
+
 autocmd! BufWritePost *.js Neomake
+autocmd! BufWritePost *.ts Neomake
 autocmd! BufWritePost *.jsx Neomake
+autocmd! BufWritePost *.tsx Neomake
 autocmd! BufWritePost *.jsw Neomake
 
 " python
@@ -268,21 +291,18 @@ autocmd! BufWritePost *.py Neomake
 " Neofmt
 "let g:neoformat_verbose = 1
 autocmd BufWritePre *.js Neoformat
+autocmd BufWritePre *.ts Neoformat
 autocmd BufWritePre *.jsx Neoformat
+autocmd BufWritePre *.tsx Neoformat
 autocmd BufWritePre *.jsw Neoformat
 
-let g:neoformat_javascript_prettier = {
-            \ 'exe': 'prettiereslint',
-            \ 'args': ['--print-width 80']
-            \ }
-
-" lens.vim
-let g:lens#disabled = 1
-
-"
-" vim-qf
-"
-"let g:qf_loclist_window_bottom=0
+let g:neoformat_only_msg_on_error = 1
+let g:neoformat_enabled_javascript = ['prettier']
+let g:neoformat_enabled_typescript = ['prettier']
+"let g:neoformat_javascript_prettier = {
+            "\ 'exe': 'prettier',
+            "\ 'args': ['--print-width 80'],
+            "\ }
 
 "
 " Toggle quick/location list
@@ -357,6 +377,9 @@ au BufNewFile,BufRead *.json set ft=json
 " Wix jsw modules
 au BufNewFile,BufRead *.jsw set ft=javascript
 
+" Jsx typescript
+au BufNewFile,BufRead *.tsx set ft=typescript
+
 " ruby shift/soft tab width
 au BufNewFile,BufRead *.rb setlocal softtabstop=2 shiftwidth=2
 au BufNewFile,BufRead *.rake setlocal softtabstop=2 shiftwidth=2
@@ -370,13 +393,14 @@ au BufNewFile,BufRead *.rake setlocal softtabstop=2 shiftwidth=2
 "
 " Ack-grep in vim
 "let g:ackprg="ack-grep -H -i -l --no-color --group --nocolumn --nofollow --max-count=1"
-let g:ackprg="ack -H --group --nocolumn --ignore-dir={__coverage__,ENV,dist,tmp,build,.vendor,log,vendor,sourcemaps,node_modules,.venv}"
+let g:ackprg="ack -H --group --nocolumn --ignore-dir={__coverage__,ENV,dist,tmp,build,.build,.vendor,log,vendor,sourcemaps,node_modules,.venv}"
 silent! nmap <unique> <silent> <Leader>f :Ack<space>
 
 " NERDTree configuration
 let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$', '__pycache__']
 map <Leader>b :NERDTreeToggle<CR>
 map <Leader>n :NERDTreeFind<CR>
+let NERDTreeShowHidden=1
 
 " ControlP configuration
 let g:ctrlp_map = "<Leader>t"
