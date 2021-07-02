@@ -92,6 +92,7 @@ set wildignore+=*.png,*.jpg,*.otf,*.woff,*.jpeg,*.orig
 
 " gulp
 set wildignore+=*/build/*
+set wildignore+=*/.build/*
 
 " other
 set wildignore+=*.*~,*~,*.swo,*.swp,*.swm,*.swn    " vim swap
@@ -139,7 +140,7 @@ au! FileType stylus :setlocal sw=2 ts=2 sts=2
 au! FileType sh :setlocal sw=2 ts=2 sts=2
 au! FileType toml :setlocal sw=2 ts=2 sts=2
 au! FileType html :setlocal sw=2 ts=2 sts=2
-au! FileType qf setlocal wrap
+au! FileType qf setlocal nowrap
 
 " Scrolling
 set scrolloff=8
@@ -216,7 +217,7 @@ let g:user_zen_prev_key='<Leader>zN'
 
 " Go Vim (vim-go)
 let g:go_fmt_command = "goimports"
-let g:go_fmt_fail_silently = 1
+let g:go_fmt_fail_silently = 0
 let g:go_metalinter_autosave = 0
 let g:go_metalinter_command = ""
 let g:go_def_mapping_enabled = 0
@@ -258,10 +259,11 @@ let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_jsx_enabled_makers = ['eslint']
 
 let g:neomake_javascript_eslint_maker = {
-  \ 'exe': 'eslint',
+  \ 'exe': $PWD . '/node_modules/.bin/eslint',
   \ 'args': ['--format=compact'],
   \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
   \   '%W%f: line %l\, col %c\, Warning - %m,%-G,%-G%*\d problems%#',
+  \ 'cwd': '%:p:h',
   \ 'output_stream': 'stdout',
   \ }
 
@@ -269,19 +271,21 @@ let g:neomake_javascript_eslint_maker = {
 let g:neomake_typescript_enabled_makers = ['eslint']
 let g:neomake_typescript_eslint_exe = $PWD .'/node_modules/.bin/eslint'
 
-"let g:neomake_typescript_eslint_maker = {
-  "\ 'exe': 'eslint',
-  "\ 'args': ['--format=compact', '--ext=.ts,.tsx', '--ignore-path=.eslintignore'],
-  "\ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
-  "\   '%W%f: line %l\, col %c\, Warning - %m,%-G,%-G%*\d problems%#',
-  "\ 'output_stream': 'stdout',
-  "\ }
+let g:neomake_typescript_eslint_maker = {
+  \ 'exe': 'eslint',
+  \ 'args': ['--format=compact', '--ext=.ts,.tsx', '--ignore-path=.eslintignore'],
+  \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
+  \   '%W%f: line %l\, col %c\, Warning - %m,%-G,%-G%*\d problems%#',
+  \ 'output_stream': 'stdout',
+  \ }
 
 autocmd! BufWritePost *.js Neomake
 autocmd! BufWritePost *.ts Neomake
 autocmd! BufWritePost *.jsx Neomake
 autocmd! BufWritePost *.tsx Neomake
 autocmd! BufWritePost *.jsw Neomake
+autocmd! BufWritePost *.ts Neomake
+autocmd! BufWritePost *.tsx Neomake
 
 " python
 "let g:neomake_python_enabled_makers = ['pylint']
@@ -295,10 +299,13 @@ autocmd BufWritePre *.ts Neoformat
 autocmd BufWritePre *.jsx Neoformat
 autocmd BufWritePre *.tsx Neoformat
 autocmd BufWritePre *.jsw Neoformat
+autocmd BufWritePost *.ts Neoformat
+autocmd BufWritePost *.tsx Neoformat
 
 let g:neoformat_only_msg_on_error = 1
 let g:neoformat_enabled_javascript = ['prettier']
 let g:neoformat_enabled_typescript = ['prettier']
+let g:neoformat_enabled_html = ['prettier']
 "let g:neoformat_javascript_prettier = {
             "\ 'exe': 'prettier',
             "\ 'args': ['--print-width 80'],
@@ -397,7 +404,7 @@ let g:ackprg="ack -H --group --nocolumn --ignore-dir={__coverage__,ENV,dist,tmp,
 silent! nmap <unique> <silent> <Leader>f :Ack<space>
 
 " NERDTree configuration
-let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$', '__pycache__']
+let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\.DS_Store', '\~$', '__pycache__', 'node_modules']
 map <Leader>b :NERDTreeToggle<CR>
 map <Leader>n :NERDTreeFind<CR>
 let NERDTreeShowHidden=1
@@ -409,8 +416,12 @@ let g:ctrlp_cmd = "CtrlP"
 let g:ctrlp_working_path_mode = 'rc'
 let g:ctrlp_custom_ignore = '\v[\/]\.(vendor)$'
 
+map <Leader>cp :ClearCtrlPCache<CR>
+
 " Vim markdown
 let vim_markdown_preview_github=1
+let vim_markdown_preview_hotkey='<Leader>p'
+let vim_markdown_preview_browser='Google Chrome'
 
 " Remember last location in file
 if has("autocmd")
