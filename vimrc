@@ -6,8 +6,16 @@
 " Note: Spring cleaning...
 
 " Preamble ---------------------------------------------------------- {{{
+" turn filetype detection off and, even if it's not strictly
+" necessary, disable loading of indent scripts and filetype plugins
 filetype off
+filetype plugin indent off
+
 call pathogen#infect()
+call pathogen#helptags()
+
+" turn filetype detection, indent scripts and filetype plugins on
+" and syntax highlighting too
 filetype plugin indent on
 set nocompatible
 
@@ -140,7 +148,7 @@ au! FileType stylus :setlocal sw=2 ts=2 sts=2
 au! FileType sh :setlocal sw=2 ts=2 sts=2
 au! FileType toml :setlocal sw=2 ts=2 sts=2
 au! FileType html :setlocal sw=2 ts=2 sts=2
-au! FileType qf setlocal nowrap
+au! FileType qf setlocal wrap
 
 " Scrolling
 set scrolloff=8
@@ -202,8 +210,8 @@ vmap <C-Up> [egv
 vmap <C-Down> ]egv
 
 " Map j/k for popup menu when visible
-inoremap <expr> j pumvisible() ? "\<C-N>" : "j"
-inoremap <expr> k pumvisible() ? "\<C-P>" : "k"
+" inoremap <expr> <C-J> pumvisible() ? "\<C-N>" : "j"
+" inoremap <expr> <C-K> pumvisible() ? "\<C-P>" : "k"
 
 " Set Paste ON/OFF
 "map <C-p> :set paste<CR>
@@ -211,9 +219,7 @@ inoremap <expr> k pumvisible() ? "\<C-P>" : "k"
 "
 
 " map zencoding
-let g:user_zen_expandabbr_key='<Leader>e'
-let g:user_zen_next_key='<Leader>zn'
-let g:user_zen_prev_key='<Leader>zN'
+"let g:user_emmet_leader_key='<Leader>e'
 
 " Go Vim (vim-go)
 let g:go_fmt_command = "goimports"
@@ -246,11 +252,13 @@ let g:neomake_warning_sign = {
 
 "" use syntastic like error sign
 let g:neomake_error_sign = {
-    \ 'text': '>>',
+    \ 'text': '>!',
     \ 'texthl': 'NeomakeErrorSign',
     \ }
 
-" go
+let g:neomake_go_go_maker = {
+    \ 'exe': 'CGO_CFLAGS=-w CGO_CPPFLAGS=-w go',
+    \ }
 autocmd! BufWritePost *.go Neomake
 
 " jsx
@@ -267,25 +275,11 @@ let g:neomake_javascript_eslint_maker = {
   \ 'output_stream': 'stdout',
   \ }
 
-" tsx
-let g:neomake_typescript_enabled_makers = ['eslint']
-let g:neomake_typescript_eslint_exe = $PWD .'/node_modules/.bin/eslint'
-
-let g:neomake_typescript_eslint_maker = {
-  \ 'exe': 'eslint',
-  \ 'args': ['--format=compact', '--ext=.ts,.tsx', '--ignore-path=.eslintignore'],
-  \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
-  \   '%W%f: line %l\, col %c\, Warning - %m,%-G,%-G%*\d problems%#',
-  \ 'output_stream': 'stdout',
-  \ }
-
 autocmd! BufWritePost *.js Neomake
 autocmd! BufWritePost *.ts Neomake
+autocmd! BufWritePost *.tsx Neomake
 autocmd! BufWritePost *.jsx Neomake
-autocmd! BufWritePost *.tsx Neomake
 autocmd! BufWritePost *.jsw Neomake
-autocmd! BufWritePost *.ts Neomake
-autocmd! BufWritePost *.tsx Neomake
 
 " python
 "let g:neomake_python_enabled_makers = ['pylint']
@@ -294,22 +288,41 @@ autocmd! BufWritePost *.py Neomake
 "
 " Neofmt
 "let g:neoformat_verbose = 1
-autocmd BufWritePre *.js Neoformat
-autocmd BufWritePre *.ts Neoformat
-autocmd BufWritePre *.jsx Neoformat
-autocmd BufWritePre *.tsx Neoformat
-autocmd BufWritePre *.jsw Neoformat
-autocmd BufWritePost *.ts Neoformat
-autocmd BufWritePost *.tsx Neoformat
+" let g:neoformat_try_node_exe = 1
+" autocmd BufWritePre *.js Neoformat
+" autocmd BufWritePre *.ts Neoformat
+" autocmd BufWritePre *.jsx Neoformat
+" autocmd BufWritePre *.tsx Neoformat
+" autocmd BufWritePre *.jsw Neoformat
+" autocmd BufWritePost *.ts Neoformat
+" autocmd BufWritePost *.tsx Neoformat
 
-let g:neoformat_only_msg_on_error = 1
-let g:neoformat_enabled_javascript = ['prettier']
-let g:neoformat_enabled_typescript = ['prettier']
-let g:neoformat_enabled_html = ['prettier']
+" let g:neoformat_only_msg_on_error = 1
+" let g:neoformat_enabled_javascript = ['prettier']
+" let g:neoformat_enabled_typescript = ['prettier']
+" let g:neoformat_enabled_html = ['prettier']
 "let g:neoformat_javascript_prettier = {
             "\ 'exe': 'prettier',
             "\ 'args': ['--print-width 80'],
             "\ }
+
+" neovim coc
+au FileType typescript nmap <silent> gd <Plug>(coc-definition)
+au FileType typescript nmap <silent> gy <Plug>(coc-type-definition)
+au FileType typescript.tsx nmap <silent> gd <Plug>(coc-definition)
+au FileType typescript.tsx nmap <silent> gy <Plug>(coc-type-definition)
+" Map j/k for pum OR coc#pum when visible
+inoremap <expr> <C-J> coc#pum#visible() ? coc#pum#next(1) : pumvisible() ? "\<C-N>" : "j"
+inoremap <expr> <C-K> coc#pum#visible() ? coc#pum#prev(1) : pumvisible() ? "\<C-P>" : "k"
+" Coc highlight
+hi DiagnosticInfo ctermfg=230
+hi DiagnosticWarn ctermfg=230
+hi DiagnosticError ctermfg=230
+hi CocMenuSel ctermbg=143 guibg=#13354A
+
+" nerdcommenter
+let g:NERDSpaceDelims = 1
+let g:NERDCompactSexyComs = 1
 
 "
 " Toggle quick/location list
@@ -385,11 +398,14 @@ au BufNewFile,BufRead *.json set ft=json
 au BufNewFile,BufRead *.jsw set ft=javascript
 
 " Jsx typescript
-au BufNewFile,BufRead *.tsx set ft=typescript
+au BufNewFile,BufRead *.tsx set ft=typescript.tsx
 
 " ruby shift/soft tab width
 au BufNewFile,BufRead *.rb setlocal softtabstop=2 shiftwidth=2
 au BufNewFile,BufRead *.rake setlocal softtabstop=2 shiftwidth=2
+
+" go template shiftwidth
+au filetype gohtmltmpl setlocal softtabstop=2 shiftwidth=2
 
 " python auto yapf
 "au Filetype python au BufWritePre <buffer> call yapf#YAPF()
@@ -400,7 +416,7 @@ au BufNewFile,BufRead *.rake setlocal softtabstop=2 shiftwidth=2
 "
 " Ack-grep in vim
 "let g:ackprg="ack-grep -H -i -l --no-color --group --nocolumn --nofollow --max-count=1"
-let g:ackprg="ack -H --group --nocolumn --ignore-dir={__coverage__,ENV,dist,tmp,build,.build,.vendor,log,vendor,sourcemaps,node_modules,.venv}"
+let g:ackprg="ack -H --group --nocolumn --type-add=tsx:ext:tsx --type-add=ts:ext:ts --ignore-dir={__coverage__,ENV,dist,tmp,build,.build,.vendor,log,vendor,sourcemaps,node_modules,.venv}"
 silent! nmap <unique> <silent> <Leader>f :Ack<space>
 
 " NERDTree configuration
