@@ -25,9 +25,6 @@
 [submodule "bundle/vim-ctrlp"]
 	path = bundle/vim-ctrlp
 	url = https://github.com/kien/ctrlp.vim.git
-[submodule "bundle/vim-json"]
-	path = bundle/vim-json
-	url = https://github.com/elzr/vim-json
 [submodule "bundle/vim-fugitive"]
 	path = bundle/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git
@@ -67,3 +64,21 @@
 [submodule "bundle/nerdcommenter"]
 	path = bundle/nerdcommenter
 	url = https://github.com/preservim/nerdcommenter.git
+[submodule "bundle/plenary.nvim"]
+	path = bundle/plenary.nvim
+	url = https://github.com/nvim-lua/plenary.nvim
+[submodule "bundle/telescope.nvim"]
+	path = bundle/telescope.nvim
+	url = https://github.com/nvim-telescope/telescope.nvim
+[submodule "bundle/nvim-treesitter"]
+	path = bundle/nvim-treesitter
+	url = https://github.com/nvim-treesitter/nvim-treesitter
+[submodule "bundle/live-grep-args"]
+	path = bundle/live-grep-args
+	url = https://github.com/nvim-telescope/telescope-live-grep-args.nvim.git
+[submodule "bundle/mustache"]
+	path = bundle/mustache
+	url = https://github.com/mustache/vim-mustache-handlebars.git
+[submodule "bundle/copilot.vim"]
+	path = bundle/copilot.vim
+	url = https://github.com/github/copilot.vim.git

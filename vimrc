@@ -11,6 +11,8 @@
 filetype off
 filetype plugin indent off
 
+" let g:pathogen_disabled = ['coc.nvim']
+
 call pathogen#infect()
 call pathogen#helptags()
 
@@ -18,6 +20,10 @@ call pathogen#helptags()
 " and syntax highlighting too
 filetype plugin indent on
 set nocompatible
+
+" Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
+" delays and poor user experience
+set updatetime=300
 
 " Basic options ----------------------------------------------------- {{{
 set number
@@ -51,6 +57,7 @@ set title
 set mouse=a
 set showmatch
 set diffopt=iwhite
+set cursorcolumn
 
 " SGR protocol
 if has("mouse_sgr")
@@ -149,6 +156,7 @@ au! FileType sh :setlocal sw=2 ts=2 sts=2
 au! FileType toml :setlocal sw=2 ts=2 sts=2
 au! FileType html :setlocal sw=2 ts=2 sts=2
 au! FileType qf setlocal wrap
+au! FileType html.handlebars :setlocal sw=2 ts=2 sts=2
 
 " Scrolling
 set scrolloff=8
@@ -220,6 +228,13 @@ vmap <C-Down> ]egv
 
 " map zencoding
 "let g:user_emmet_leader_key='<Leader>e'
+"
+
+" map command line movement
+cnoremap <C-h> <Left>
+cnoremap <C-l> <Right>
+cnoremap <C-w> <S-right>
+cnoremap <C-b> <S-left>
 
 " Go Vim (vim-go)
 let g:go_fmt_command = "goimports"
@@ -241,9 +256,9 @@ au FileType go nmap <silent> gl :GoDecls<CR>
 
 "
 " Neomake
-let g:neomake_open_list = 2
-"let g:neomake_verbose = 1
-"let g:neomake_logfile = $PWD .'neomake.log'
+let g:neomake_open_list = 0
+let g:neomake_verbose = 1
+" let g:neomake_logfile = $PWD .'/neomake.log'
 
 let g:neomake_warning_sign = {
     \   'text': '!!',
@@ -262,24 +277,27 @@ let g:neomake_go_go_maker = {
 autocmd! BufWritePost *.go Neomake
 
 " jsx
-let g:jsx_ext_required = 0
-let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_jsx_enabled_makers = ['eslint']
+" let g:jsx_ext_required = 0
+" let g:neomake_javascript_enabled_makers = ['eslint']
+" let g:neomake_jsx_enabled_makers = ['eslint']
 
-let g:neomake_javascript_eslint_maker = {
-  \ 'exe': $PWD . '/node_modules/.bin/eslint',
-  \ 'args': ['--format=compact'],
-  \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
-  \   '%W%f: line %l\, col %c\, Warning - %m,%-G,%-G%*\d problems%#',
-  \ 'cwd': '%:p:h',
-  \ 'output_stream': 'stdout',
-  \ }
+" let g:neomake_javascript_eslint_maker = {
+  " \ 'exe': $PWD . '/node_modules/.bin/eslint',
+  " \ 'args': ['--format=compact'],
+  " \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
+  " \   '%W%f: line %l\, col %c\, Warning - %m,%-G,%-G%*\d problems%#',
+  " \ 'cwd': '%:p:h',
+  " \ 'output_stream': 'stdout',
+  " \ }
 
 autocmd! BufWritePost *.js Neomake
 autocmd! BufWritePost *.ts Neomake
 autocmd! BufWritePost *.tsx Neomake
 autocmd! BufWritePost *.jsx Neomake
 autocmd! BufWritePost *.jsw Neomake
+
+"typescript-vim
+let g:typescript_indent_disable = 1
 
 " python
 "let g:neomake_python_enabled_makers = ['pylint']
@@ -319,6 +337,9 @@ hi DiagnosticInfo ctermfg=230
 hi DiagnosticWarn ctermfg=230
 hi DiagnosticError ctermfg=230
 hi CocMenuSel ctermbg=143 guibg=#13354A
+
+" prettier
+command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
 
 " nerdcommenter
 let g:NERDSpaceDelims = 1
@@ -404,6 +425,10 @@ au BufNewFile,BufRead *.tsx set ft=typescript.tsx
 au BufNewFile,BufRead *.rb setlocal softtabstop=2 shiftwidth=2
 au BufNewFile,BufRead *.rake setlocal softtabstop=2 shiftwidth=2
 
+" scss, css
+au BufNewFile,BufRead *.css setlocal softtabstop=2 shiftwidth=2
+au BufNewFile,BufRead *.scss setlocal softtabstop=2 shiftwidth=2
+
 " go template shiftwidth
 au filetype gohtmltmpl setlocal softtabstop=2 shiftwidth=2
 
@@ -416,8 +441,8 @@ au filetype gohtmltmpl setlocal softtabstop=2 shiftwidth=2
 "
 " Ack-grep in vim
 "let g:ackprg="ack-grep -H -i -l --no-color --group --nocolumn --nofollow --max-count=1"
-let g:ackprg="ack -H --group --nocolumn --type-add=tsx:ext:tsx --type-add=ts:ext:ts --ignore-dir={__coverage__,ENV,dist,tmp,build,.build,.vendor,log,vendor,sourcemaps,node_modules,.venv}"
-silent! nmap <unique> <silent> <Leader>f :Ack<space>
+" let g:ackprg="ack -H --group --nocolumn --type-add=tsx:ext:tsx --type-add=ts:ext:ts --ignore-dir={__coverage__,ENV,dist,tmp,build,.build,.vendor,log,vendor,sourcemaps,node_modules,.venv}"
+" silent! nmap <unique> <silent> <Leader>f :Ack<space>
 
 " NERDTree configuration
 let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\.DS_Store', '\~$', '__pycache__', 'node_modules']
@@ -426,13 +451,24 @@ map <Leader>n :NERDTreeFind<CR>
 let NERDTreeShowHidden=1
 
 " ControlP configuration
-let g:ctrlp_map = "<Leader>t"
-let g:ctrlp_cmd = "CtrlP"
+" let g:ctrlp_map = "<Leader>t"
+" let g:ctrlp_cmd = "CtrlP"
 
-let g:ctrlp_working_path_mode = 'rc'
-let g:ctrlp_custom_ignore = '\v[\/]\.(vendor)$'
+" let g:ctrlp_working_path_mode = 'rc'
+" let g:ctrlp_custom_ignore = '\v[\/]\.(vendor)$'
 
-map <Leader>cp :ClearCtrlPCache<CR>
+" map <Leader>cp :ClearCtrlPCache<CR>
+
+" Telescope
+
+nnoremap <leader>t <cmd>Telescope find_files<cr>
+nnoremap <leader>f <cmd>Telescope live_grep<cr>
+nnoremap <leader>fd <cmd>Telescope grep_string<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep_args<cr>
+
+nnoremap <expr> <leader>sF ':Telescope live_grep<cr>' . "'" . expand('<cword>')
 
 " Vim markdown
 let vim_markdown_preview_github=1

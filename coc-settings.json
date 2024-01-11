@@ -1,6 +1,8 @@
 {
   "coc.preferences.jumpCommand": "vsplit",
   "coc.preferences.formatOnSaveFiletypes": [
+    "html",
+    "scss",
     "javascript",
     "javascriptreact",
     "typescript",

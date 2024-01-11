@@ -28,6 +28,7 @@ vim-unimpaired (v1.2-38-g11dc568)
 
 ## Coc Extensions
 coc-tsserver
+coc-eslint
 coc-prettier
 
 ## Setting up NVIM
