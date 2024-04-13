@@ -227,7 +227,7 @@ vmap <C-Down> ]egv
 "
 
 " map zencoding
-"let g:user_emmet_leader_key='<Leader>e'
+let g:user_emmet_leader_key='<Leader>e'
 "
 
 " map command line movement
