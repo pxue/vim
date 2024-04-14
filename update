@@ -1,3 +1,7 @@
+# git submodule update --init
 git submodule foreach git fetch -v
 git submodule foreach git pull origin master
 git add .
+
+# dependencies
+brew install ripgrep
