@@ -290,11 +290,11 @@ autocmd! BufWritePost *.go Neomake
   " \ 'output_stream': 'stdout',
   " \ }
 
-autocmd! BufWritePost *.js Neomake
-autocmd! BufWritePost *.ts Neomake
-autocmd! BufWritePost *.tsx Neomake
-autocmd! BufWritePost *.jsx Neomake
-autocmd! BufWritePost *.jsw Neomake
+" autocmd! BufWritePost *.js Neomake
+" autocmd! BufWritePost *.ts Neomake
+" autocmd! BufWritePost *.tsx Neomake
+" autocmd! BufWritePost *.jsx Neomake
+" autocmd! BufWritePost *.jsw Neomake
 
 "typescript-vim
 let g:typescript_indent_disable = 1
@@ -470,10 +470,8 @@ nnoremap <leader>fg <cmd>Telescope live_grep_args<cr>
 
 nnoremap <expr> <leader>sF ':Telescope live_grep<cr>' . "'" . expand('<cword>')
 
-" Vim markdown
-let vim_markdown_preview_github=1
-let vim_markdown_preview_hotkey='<Leader>p'
-let vim_markdown_preview_browser='Google Chrome'
+"Markdown preview
+" Plugin 'iamcco/markdown-preview.nvim'
 
 " Remember last location in file
 if has("autocmd")

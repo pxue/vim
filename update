@@ -1,7 +1,8 @@
 # git submodule update --init
-git submodule foreach git fetch -v
-git submodule foreach git pull origin master
-git add .
+git submodule foreach git fetch -v --tags
 
 # dependencies
 brew install ripgrep
+
+# coc dependencies
+# :CocInstall coc-prettier
