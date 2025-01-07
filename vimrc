@@ -445,10 +445,11 @@ au filetype gohtmltmpl setlocal softtabstop=2 shiftwidth=2
 " silent! nmap <unique> <silent> <Leader>f :Ack<space>
 
 " NERDTree configuration
-let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\.DS_Store', '\~$', '__pycache__', 'node_modules']
+let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\.DS_Store', '\~$', '__pycache__', 'node_modules', 'bin', '\.git']
 map <Leader>b :NERDTreeToggle<CR>
 map <Leader>n :NERDTreeFind<CR>
 let NERDTreeShowHidden=1
+let NERDTreeCaseSensitiveFS=1
 
 " ControlP configuration
 " let g:ctrlp_map = "<Leader>t"

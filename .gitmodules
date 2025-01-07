@@ -74,3 +74,6 @@
 [submodule "markdown-preview.nvim"]
 	path = bundle/markdown-preview.nvim
 	url = https://github.com/iamcco/markdown-preview.nvim
+[submodule "bundle/vim-graphql"]
+	path = bundle/vim-graphql
+	url = https://github.com/jparise/vim-graphql.git
